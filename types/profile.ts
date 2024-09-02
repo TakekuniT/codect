@@ -7,9 +7,6 @@ export interface Profile {
     linkedin: string;
     skills: Array<string>;
     techstack: Array<string>;
-    contact: Array<[string,string]>;
+    contact: Array<object>;
 }
 
-export interface ProfileWithId extends Profile {
-    id: string;
-  }
