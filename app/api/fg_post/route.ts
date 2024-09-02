@@ -3,7 +3,7 @@ import { firestore } from '@/lib/firebase';
 import { FGPost } from '@/types/post'; 
 import { collection, doc, getDoc, getDocs, addDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 
-const fgPostsCollection = collection(firestore, 'fgPosts');
+const fgPostsCollection = collection(firestore, 'fg_post');
 
 // Create a new FGPost, POST
 export async function POST(req: NextRequest) {
