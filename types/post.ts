@@ -1,5 +1,5 @@
 import { GroupType, TimeZone, TechStack, Skill, Commitment, Role } from "./attribute";
-import { firestore } from 'firebase-admin';
+import { DocumentReference } from 'firebase/firestore';  // Ensure this is from 'firebase/firestore' for client-side
 
 export interface Post {
     id: string;
@@ -18,7 +18,7 @@ export interface FGPost extends Post {
     role: Array<Role>;
     closed: Boolean;
     contact: String;
-    thread: Array<firestore.DocumentReference>;
+    thread: Array<DocumentReference>;
     timeZone?: TimeZone;
 }
 
