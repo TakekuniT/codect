@@ -18,7 +18,7 @@ export interface FGPost extends Post {
     role: Array<Role>;
     closed: Boolean;
     contact: String;
-    thread: firestore.DocumentReference;
+    thread: Array<firestore.DocumentReference>;
     timeZone?: TimeZone;
 }
 
