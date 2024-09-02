@@ -1,11 +1,39 @@
 "use client"
 
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useCreateUserWithEmailAndPassword, useSendEmailVerification, useSignInWithEmailAndPassword, } from "react-firebase-hooks/auth";
+import { auth, firestore } from "@/lib/firebase";
+import { collection, doc, getDoc, setDoc, } from '@firebase/firestore';
 
 export default function SignUp() {
     const router = useRouter();
-    const signup = () => {
-        router.push('/home');
+    const [createUser] = useCreateUserWithEmailAndPassword(auth);
+    const [sendEmailVerification] = useSendEmailVerification(auth);
+    const [signInUserWithEmailAndPassword, user] = useSignInWithEmailAndPassword(auth);
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [username, setUsername] = useState("");
+    const signup = async () => {
+        if (password.length < 6){
+            alert("Password must be at least 6 characters in length.");
+        }else if (email.indexOf('@') < 0){
+            alert("Did not enter a valid email address");
+        }else{
+            const docRef = doc(collection(firestore, 'users'), email);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()){  //user with that email already exists 
+                alert('That email is already used.');
+            }else{
+                await setDoc(docRef, {"name": "","username": username, "userId": "", "password": password});
+                await createUser(email, password);
+                await sendEmailVerification();
+                await signInUserWithEmailAndPassword(email, password);
+                router.push('/home');
+            }
+
+        }
       };
     return (
         <div className="flex justify-center items-center h-screen bg-[#f6f6f6]">
@@ -14,17 +42,29 @@ export default function SignUp() {
                 <p className="text-[14px] text-gray-500 mx-auto">Already have an account? <a href="/login">Login</a></p>
                 <div className="mt-10">
                     <p className="text-[14px]">Email</p>
-                    <input className="border-black border-[1px] rounded-lg w-full px-4 py-1"/>
+                    <input onChange={(e) => setEmail(e.target.value)}
+                    className="border-black border-[1px] rounded-lg w-full px-4 py-1"
+                    value={email}
+                    />
 
                 </div>
                 <div className="mt-2">
                     <p className="text-[14px]">Username</p>
-                    <input className="border-black border-[1px] rounded-lg w-full px-4 py-1"/>
+                    <input 
+                    onChange={(e) => setUsername(e.target.value)}
+                    value={username}
+                    className="border-black border-[1px] rounded-lg w-full px-4 py-1"
+                    />
 
                 </div>
                 <div className="mt-2">
                     <p className="text-[14px]">Password</p>
-                    <input className="border-black border-[1px] rounded-lg w-full px-4 py-1"/>
+                    <input 
+                    type="password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
+                    className="border-black border-[1px] rounded-lg w-full px-4 py-1"
+                    />
 
                 </div>
                 <p className="ml-auto mr-0 text-[12px] mt-2 text-gray-500">Forgot password?</p>
