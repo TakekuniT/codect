@@ -2,15 +2,17 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { useCreateUserWithEmailAndPassword, useSendEmailVerification, useSignInWithEmailAndPassword, } from "react-firebase-hooks/auth";
+import { useCreateUserWithEmailAndPassword, useSendEmailVerification, useSignInWithEmailAndPassword, useSignInWithGoogle, } from "react-firebase-hooks/auth";
 import { auth, firestore } from "@/lib/firebase";
-import { collection, doc, getDoc, setDoc, } from '@firebase/firestore';
+import { doc, collection, getDoc, setDoc, } from '@firebase/firestore';
+import { createProfile } from '@/services/profile';
 
 export default function SignUp() {
     const router = useRouter();
     const [createUser] = useCreateUserWithEmailAndPassword(auth);
     const [sendEmailVerification] = useSendEmailVerification(auth);
     const [signInUserWithEmailAndPassword, user] = useSignInWithEmailAndPassword(auth);
+    const [signInWithGoogle, userGoogle] = useSignInWithGoogle(auth);
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -26,7 +28,17 @@ export default function SignUp() {
             if (docSnap.exists()){  //user with that email already exists 
                 alert('That email is already used.');
             }else{
-                await setDoc(docRef, {"name": "","username": username, "userId": "", "password": password});
+                const userProfile = createProfile({
+                    userName: username, 
+                    email: email,
+                    name: '',
+                    github: '',
+                    linkedin: '',
+                    skills: [],
+                    techstack: [],
+                    contact: []
+                })
+                await setDoc(docRef, {"name": "","username": username, "userId": (await userProfile).id, "password": password});
                 await createUser(email, password);
                 await sendEmailVerification();
                 await signInUserWithEmailAndPassword(email, password);
@@ -35,6 +47,31 @@ export default function SignUp() {
 
         }
       };
+
+    const googleSignIn = async () => {
+        await signInWithGoogle(); 
+        
+        if(userGoogle){
+            const myUser = userGoogle.user;
+            const docGoogleRef = doc(collection(firestore, 'users'), myUser.email?.toString());
+            const docSnap = await getDoc(docGoogleRef);
+            if(!docSnap.exists()){
+                const userProfile = createProfile({
+                    userName: '', 
+                    email: userGoogle.user.email || '',
+                    name: userGoogle.user.displayName || '',
+                    github: '',
+                    linkedin: '',
+                    skills: [],
+                    techstack: [],
+                    contact: []
+                })
+                setDoc(docGoogleRef, {"name": userGoogle.user.displayName,"username": "", "userId": (await userProfile).id, "password": ""})
+            }
+            router.push('/home');
+        }
+    }
+
     return (
         <div className="flex justify-center items-center h-screen bg-[#f6f6f6]">
             <div className="bg-white w-[30%] flex flex-col p-8 rounded-lg ">
@@ -78,7 +115,7 @@ export default function SignUp() {
                     <hr className="flex-grow border-t border-gray-300" />
                 </div>
                 
-                <button className="w-full border-[1px] border-black rounded-lg mt-6 p-2 text-[14px] font-semibold">Login with Google</button>
+                <button onClick={googleSignIn} className="w-full border-[1px] border-black rounded-lg mt-6 p-2 text-[14px] font-semibold">Login with Google</button>
             </div>
             
         </div>
