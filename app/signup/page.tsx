@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useCreateUserWithEmailAndPassword, useSendEmailVerification, useSignInWithEmailAndPassword, } from "react-firebase-hooks/auth";
 import { auth, firestore } from "@/lib/firebase";
-import { collection, doc, getDoc, setDoc, updateDoc } from '@firebase/firestore';
+import { collection, doc, getDoc, setDoc, } from '@firebase/firestore';
 
 export default function SignUp() {
     const router = useRouter();
@@ -26,8 +26,7 @@ export default function SignUp() {
             if (docSnap.exists()){  //user with that email already exists 
                 alert('That email is already used.');
             }else{
-                await setDoc(docRef, {"username": username, "userId": "", "name": "", "github": "",
-                "linkedin": "", "techStack": [], "skills": [], "contact": []});
+                await setDoc(docRef, {"name": "","username": username, "userId": "", "password": password});
                 await createUser(email, password);
                 await sendEmailVerification();
                 await signInUserWithEmailAndPassword(email, password);
