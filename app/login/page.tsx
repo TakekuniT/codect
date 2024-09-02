@@ -41,6 +41,7 @@ export default function Login() {
                 <div className="mt-2">
                     <p className="text-[14px]">Password</p>
                     <input onChange={(e) => setPassword(e.target.value)}
+                    type='password'
                     value={password}
                     className="border-black border-[1px] rounded-lg w-full px-4 py-1"
                     />
