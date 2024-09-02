@@ -9,16 +9,6 @@ const profilesCollection = collection(firestore, 'profile');
 export async function POST(req: NextRequest) {
   try {
     const { name, userName, email, github, linkedin, skills, techstack, contact } = await req.json();
-    console.log({
-        name,
-        userName,
-        email,
-        github,
-        linkedin,
-        skills,
-        techstack,
-        contact
-      });
     const newProfile = await addDoc(profilesCollection, { name, userName, email, github, linkedin, skills, techstack, contact });
     return NextResponse.json({ id: newProfile.id, message: 'Profile created successfully' }, { status: 201 });
   } catch (error) {
