@@ -67,6 +67,7 @@ export default function SignUp() {
                     contact: []
                 })
                 setDoc(docGoogleRef, {"name": userGoogle.user.displayName,"username": "", "userId": (await userProfile).id, "password": ""})
+                sendEmailVerification(); 
             }
             router.push('/home');
         }
