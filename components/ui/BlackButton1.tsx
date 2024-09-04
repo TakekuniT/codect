@@ -1,9 +1,9 @@
 
 
-export default function BlackButton1 ({text}: {text: string}) {
+export default function BlackButton1 ({text, onClick}: {text: string, onClick?:any}) {
     return (
-        <div className="bg-black">
-            <button className="text-[55px] bg-yellow-500">{text}</button>
+        <div>
+            <button onClick={onClick} className="text-white bg-black px-4 py-2 rounded-lg text-[12px]">{text}</button>
         </div>
     )
 }
