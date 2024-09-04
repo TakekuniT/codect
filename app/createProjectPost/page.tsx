@@ -17,9 +17,15 @@ export default function CreateProjectPost () {
 
 
     const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+    const [title, setTitle] = useState<string>('');
+    const [description, setDescription] = useState<string>('');
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
     const [techStack, setTechStack] = useState<string[]>([]);
     const [roleAvailability, setRoleAvailability] = useState<string[]>([]);
+    const [expectedCommitmentTime, setExpectedCommitmentTime] = useState<string>('');
+    const [location, setLocation] = useState<string>('');
+    const [timeZone, setTimeZone] = useState<string>('');
+    const [contact, setContact] = useState<string>('');
 
   const scrollNext = () => {
     if (scrollContainerRef.current) {
@@ -52,6 +58,9 @@ export default function CreateProjectPost () {
         setRoleAvailability([...roleAvailability, value])
     }
   }
+  const submit = () => {
+    console.log(title, description, selectedTags, techStack, roleAvailability, expectedCommitmentTime, location, timeZone, contact)
+  }
   useEffect(() => {
     const handleResize = () => {
       if (scrollContainerRef.current) {
@@ -77,7 +86,7 @@ export default function CreateProjectPost () {
             <div className="h-full w-full flex justify-center items-center snap-start">
                 <div className='w-[50%]'>
                     <p className='font-bold text-[24px]'>What is the title of your project?</p>
-                    <input className='border-b-2 border-gray-500 w-full mb-4 px-4 py-2'/>
+                    <input onChange= {(e) => {setTitle(e.target.value)}}className='border-b-2 border-gray-500 w-full mb-4 px-4 py-2'/>
                     <BlackButton1 text="Next" onClick={scrollNext}/>
 
                 </div>
@@ -86,7 +95,7 @@ export default function CreateProjectPost () {
             <div className="h-full w-full flex justify-center items-center snap-start">
                 <div className='w-[50%] '>
                     <p className='font-bold text-[24px]'>Project Overview</p>
-                    <textarea placeholder='project description' className='border w-full'/>
+                    <textarea onChange={(e) => {setDescription(e.target.value)}} placeholder='project description' className='border w-full'/>
                     <div className='flex gap-2'>
                         <BlackButton1 text="Back" onClick={scrollBack}/>
                         <BlackButton1 text="Next" onClick={scrollNext}/>
@@ -177,7 +186,7 @@ export default function CreateProjectPost () {
                 <div className='w-[50%] '>
                     <p className='font-bold text-[24px] mb-4'>Role Availability</p>
                     
-                        <Select >
+                        <Select onValueChange={selectRoleAvailability}>
                             <SelectTrigger className="">
                                 <SelectValue placeholder="Select tag" />
                             </SelectTrigger>
@@ -217,7 +226,7 @@ export default function CreateProjectPost () {
             <div className="h-full w-full flex justify-center items-center snap-start">
                 <div className='w-[50%] '>
                     <p className='font-bold text-[24px] mb-4'>Expected commitment time</p>
-                    <Select >
+                    <Select onValueChange={(e) => {setExpectedCommitmentTime(e)}}>
                         <SelectTrigger className="">
                             <SelectValue placeholder="Select tags" />
                         </SelectTrigger>
@@ -245,9 +254,9 @@ export default function CreateProjectPost () {
             <div className="h-full w-full flex justify-center items-center snap-start">
                 <div className='w-[50%] '>
                     <p className='font-bold text-[24px]'>Location</p>
-                    <input className='border-b-2 border-gray-500 w-full mb-4 px-4 py-2'/>
+                    <input onChange={(e) => setLocation(e.target.value)} className='border-b-2 border-gray-500 w-full mb-4 px-4 py-2'/>
                     <p className='font-bold text-[24px] mb-4 mt-4'>Time Zone</p>
-                    <Select >
+                    <Select onValueChange={(e) => {setTimeZone(e)}}>
                         <SelectTrigger className="">
                             <SelectValue placeholder="Select tags" />
                         </SelectTrigger>
@@ -275,10 +284,10 @@ export default function CreateProjectPost () {
             <div className="h-full w-full flex justify-center items-center snap-start">
                 <div className='w-[50%]'>
                     <p className='font-bold text-[24px]'>Contact</p>
-                    <input className='border-b-2 border-black w-full mb-4 px-4 py-2'/>
+                    <input onChange={(e) => setContact(e.target.value)} className='border-b-2 border-black w-full mb-4 px-4 py-2'/>
                     <div className='flex gap-2 mt-4'>
                         <BlackButton1 text="Back" onClick={scrollBack}/>
-                        <BlackButton1 text="Post" onClick={scrollNext}/>
+                        <BlackButton1 text="Post" onClick={submit}/>
 
                     </div>
 
