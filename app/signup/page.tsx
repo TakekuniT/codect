@@ -67,7 +67,7 @@ export default function SignUp() {
                     />
 
                 </div>
-                <p className="ml-auto mr-0 text-[12px] mt-2 text-gray-500">Forgot password?</p>
+                <p className="ml-auto mr-0 text-[12px] mt-2 text-gray-500"><a href="/profile">Forgot password?</a></p>
                 
                 <button  onClick={signup}className="bg-black text-white rounded-lg p-1 text-[16px] mt-6">Sign Up</button>
                 <div className="mt-6 flex items-center">
