@@ -17,6 +17,9 @@ const config = {
         "2xl": "1400px",
       },
     },
+    fontFamily: {
+      body: ['Inter']
+    },
     extend: {
       keyframes: {
         "accordion-down": {
