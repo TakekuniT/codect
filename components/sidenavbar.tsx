@@ -5,7 +5,11 @@ export default function Sidenavbar () {
         <div className="w-[5%] bg-white h-screen flex flex-col gap-4 items-center pt-8">
             <House />
             <UserPen/>
-            <PanelsTopLeft/>
+            <a href="/projects">
+                <PanelsTopLeft/>
+
+            </a>
+            
         </div>
     )
 }
