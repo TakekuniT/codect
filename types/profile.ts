@@ -1,3 +1,4 @@
+import { TechStack, Skill } from "./attribute";
 export interface Profile {
     id: string;
 	name: string;
@@ -5,8 +6,8 @@ export interface Profile {
     email: string;
     github: string;
     linkedin: string;
-    skills: Array<string>;
-    techstack: Array<string>;
+    skills: Array<Skill>;
+    techstack: Array<TechStack>;
     contact: Array<object>;
 }
 
