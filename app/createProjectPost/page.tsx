@@ -11,6 +11,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+
+import { TechStackArray, CommitmentArray, } from '@/types/attribute';
  
 
 export default function CreateProjectPost () {
