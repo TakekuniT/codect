@@ -11,6 +11,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { useRouter } from 'next/navigation';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '@/lib/firebase';
+import { SignedIn } from '@/components/signed-in';
+import { Loader } from 'lucide-react';
  
 
 export default function CreateProjectPost () {
@@ -25,6 +30,16 @@ export default function CreateProjectPost () {
     const [expectedCommitmentTime, setExpectedCommitmentTime] = useState<string>('');
     const [timeZone, setTimeZone] = useState<string>('');
     const [contact, setContact] = useState<string>('');
+
+    const router = useRouter(); 
+    const [user, loading] = useAuthState(auth);
+    useEffect(() => {
+        if (!loading) {
+            if (!user) {
+                router.push('/login');
+            }
+        }
+    }, [loading, user, router]);
 
   const scrollNext = () => {
     if (scrollContainerRef.current) {
@@ -81,6 +96,14 @@ export default function CreateProjectPost () {
 
     
     return (
+        <>
+         {loading ? 
+            <div className="flex justify-center items-center w-screen h-screen">
+                <Loader className="animate-spin w-10 h-10"></Loader> 
+            </div>
+            
+            : <></>}
+        <SignedIn>
         <div  ref={scrollContainerRef} className="overflow-hidden h-screen scroll-snap-y scroll-smooth snap-mandatory">
             <div className="h-full w-full flex justify-center items-center snap-start">
                 <div className='w-[50%]'>
@@ -294,5 +317,7 @@ export default function CreateProjectPost () {
             </div>
             
         </div>
+        </SignedIn>
+        </>
     )
 }

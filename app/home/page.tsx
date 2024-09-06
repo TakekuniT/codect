@@ -9,9 +9,9 @@ import { Loader } from "lucide-react";
 import { SignedIn } from "@/components/signed-in";
 
 export default function Home () {
+    const [signOut] = useSignOut(auth);
     const router = useRouter(); 
     const [user, loading] = useAuthState(auth);
-    const [signOut] = useSignOut(auth);
     useEffect(() => {
         if (!loading) {
             if (!user) {
