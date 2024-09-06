@@ -13,7 +13,7 @@ export default function projects() {
         <div className="bg-[#f6f6f6] h-screen flex">
             
             <Sidenavbar/>
-            <div className="p-10 w-full">
+            <div className="p-10 w-1/2">
                 <a href="createProjectPost">
                 <BlackButton1 text="+ Create Project" />
 
@@ -24,7 +24,7 @@ export default function projects() {
                 
 
             </div>
-            <div className="w-full">
+            <div className="w-1/2">
 
             </div>
             

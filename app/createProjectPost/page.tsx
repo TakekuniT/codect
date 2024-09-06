@@ -23,7 +23,6 @@ export default function CreateProjectPost () {
     const [techStack, setTechStack] = useState<string[]>([]);
     const [roleAvailability, setRoleAvailability] = useState<string[]>([]);
     const [expectedCommitmentTime, setExpectedCommitmentTime] = useState<string>('');
-    const [location, setLocation] = useState<string>('');
     const [timeZone, setTimeZone] = useState<string>('');
     const [contact, setContact] = useState<string>('');
 
@@ -59,7 +58,7 @@ export default function CreateProjectPost () {
     }
   }
   const submit = () => {
-    console.log(title, description, selectedTags, techStack, roleAvailability, expectedCommitmentTime, location, timeZone, contact)
+    console.log(title, description, selectedTags, techStack, roleAvailability, expectedCommitmentTime, timeZone, contact)
   }
   useEffect(() => {
     const handleResize = () => {
@@ -253,8 +252,7 @@ export default function CreateProjectPost () {
             </div>
             <div className="h-full w-full flex justify-center items-center snap-start">
                 <div className='w-[50%] '>
-                    <p className='font-bold text-[24px]'>Location</p>
-                    <input onChange={(e) => setLocation(e.target.value)} className='border-b-2 border-gray-500 w-full mb-4 px-4 py-2'/>
+                    
                     <p className='font-bold text-[24px] mb-4 mt-4'>Time Zone</p>
                     <Select onValueChange={(e) => {setTimeZone(e)}}>
                         <SelectTrigger className="">
