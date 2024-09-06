@@ -1,11 +1,33 @@
 "use client";
 import Sidenavbar from "@/components/sidenavbar";
+import { SignedIn } from "@/components/signed-in";
+import { auth } from "@/lib/firebase";
+import { Loader } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function Profile () {
- 
+  const router = useRouter(); 
+  const [user, loading] = useAuthState(auth); 
+  useEffect(() => {
+      if (!loading) {
+          if (!user) {
+              router.push('/login');
+          }
+      }
+  }, [loading, user, router]);
+
     return (
     <>
-       <div className="bg-[#f6f6f6] h-[400vh] flex">
+      {loading ? 
+            <div className="flex justify-center items-center w-screen h-screen">
+                <Loader className="animate-spin w-10 h-10"></Loader> 
+            </div>
+            
+            : <></>}
+        <SignedIn>
+       <div className="bg-[#f6f6f6] h-[200vh] flex">
        <Sidenavbar/>
         <div className="flex flex-col relative">
           <div className="ml-12 bg-pink-300 w-[55rem] h-[12rem] mt-8"/>
@@ -64,6 +86,7 @@ export default function Profile () {
           </div>
         </div>
        </div>
+       </SignedIn>
     </>
     
   );
