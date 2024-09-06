@@ -9,7 +9,6 @@ import { Loader } from "lucide-react";
 import { SignedIn } from "@/components/signed-in";
 
 export default function Home () {
-    const [signOut] = useSignOut(auth);
     const router = useRouter(); 
     const [user, loading] = useAuthState(auth);
     useEffect(() => {
@@ -28,8 +27,8 @@ export default function Home () {
             
             : <></>}
             <SignedIn>
-                <div className="bg-[#f6f6f6] h-screen">
                 <Header/>
+                <div className="bg-[#f6f6f6] h-screen">
                 <Sidenavbar/>
                 </div>
             </SignedIn>
