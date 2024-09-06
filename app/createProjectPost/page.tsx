@@ -12,7 +12,9 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-import { TechStackArray, CommitmentArray, } from '@/types/attribute';
+import { TechStackArray, CommitmentArray, TimeZoneArray, RoleArray, SkillArray, TechStack, Commitment, TimeZone, Role, Skill } from '@/types/attribute';
+import { FGPost } from '@/types/post';
+import { createFGPost } from '@/services/fg_post';
  
 
 export default function CreateProjectPost () {
@@ -61,6 +63,31 @@ export default function CreateProjectPost () {
   }
   const submit = () => {
     console.log(title, description, selectedTags, techStack, roleAvailability, expectedCommitmentTime, timeZone, contact)
+
+    const postData: Omit<FGPost, 'id'> = {
+        timeStamp: new Date().toISOString(),  
+        ownerId: '',  
+        groupMember: [],  
+        title: title,
+        projectOverview: description,
+        skill: selectedTags as Array<Skill>, 
+        techstack: techStack as Array<TechStack>,  
+        commitment: expectedCommitmentTime as Commitment,  
+        role: roleAvailability as Array<Role>,  
+        closed: false,
+        contact: contact,
+        thread: [],  
+        timeZone: timeZone as TimeZone
+    };
+
+    createFGPost(postData)
+        .then((response) => {
+            console.log(`FGPost created with ID: ${response.id}, Message: ${response.message}`);
+        })
+        .catch((error) => {
+            console.error('Error creating FGPost:', error.message);
+        });
+    
   }
   useEffect(() => {
     const handleResize = () => {
@@ -116,12 +143,11 @@ export default function CreateProjectPost () {
                         </SelectTrigger>
                         <SelectContent>
                             <SelectGroup>
-                            <SelectLabel>Tags</SelectLabel>
-                            <SelectItem value="apple">Apple</SelectItem>
-                            <SelectItem value="banana">Banana</SelectItem>
-                            <SelectItem value="blueberry">Blueberry</SelectItem>
-                            <SelectItem value="grapes">Grapes</SelectItem>
-                            <SelectItem value="pineapple">Pineapple</SelectItem>
+                                <SelectLabel>Tags</SelectLabel>
+                                
+                                {SkillArray.map(skill => (
+                                    <SelectItem key={skill} value={skill}>{skill}</SelectItem>
+                                ))}
                             </SelectGroup>
                         </SelectContent>
                     </Select>
@@ -155,11 +181,9 @@ export default function CreateProjectPost () {
                         <SelectContent>
                             <SelectGroup>
                             <SelectLabel>Tags</SelectLabel>
-                            <SelectItem value="apple">Apple</SelectItem>
-                            <SelectItem value="banana">Banana</SelectItem>
-                            <SelectItem value="blueberry">Blueberry</SelectItem>
-                            <SelectItem value="grapes">Grapes</SelectItem>
-                            <SelectItem value="pineapple">Pineapple</SelectItem>
+                                {TechStackArray.map(tech => (
+                                    <SelectItem key={tech} value={tech}>{tech}</SelectItem>
+                                ))}
                             </SelectGroup>
                         </SelectContent>
                     </Select>
@@ -194,11 +218,9 @@ export default function CreateProjectPost () {
                             <SelectContent>
                                 <SelectGroup>
                                 <SelectLabel>Tags</SelectLabel>
-                                <SelectItem value="apple">Apple</SelectItem>
-                                <SelectItem value="banana">Banana</SelectItem>
-                                <SelectItem value="blueberry">Blueberry</SelectItem>
-                                <SelectItem value="grapes">Grapes</SelectItem>
-                                <SelectItem value="pineapple">Pineapple</SelectItem>
+                                    {RoleArray.map(role => (
+                                        <SelectItem key={role} value={role}>{role}</SelectItem>
+                                    ))}
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
@@ -234,11 +256,9 @@ export default function CreateProjectPost () {
                         <SelectContent>
                             <SelectGroup>
                             <SelectLabel>Tags</SelectLabel>
-                            <SelectItem value="apple">Apple</SelectItem>
-                            <SelectItem value="banana">Banana</SelectItem>
-                            <SelectItem value="blueberry">Blueberry</SelectItem>
-                            <SelectItem value="grapes">Grapes</SelectItem>
-                            <SelectItem value="pineapple">Pineapple</SelectItem>
+                                {CommitmentArray.map(commitment => (
+                                    <SelectItem key={commitment} value={commitment}>{commitment}</SelectItem>
+                                ))}
                             </SelectGroup>
                         </SelectContent>
                     </Select>
@@ -263,11 +283,9 @@ export default function CreateProjectPost () {
                         <SelectContent>
                             <SelectGroup>
                             <SelectLabel>Tags</SelectLabel>
-                            <SelectItem value="apple">Apple</SelectItem>
-                            <SelectItem value="banana">Banana</SelectItem>
-                            <SelectItem value="blueberry">Blueberry</SelectItem>
-                            <SelectItem value="grapes">Grapes</SelectItem>
-                            <SelectItem value="pineapple">Pineapple</SelectItem>
+                                {TimeZoneArray.map(timezone => (
+                                    <SelectItem key={timezone} value={timezone}>{timezone}</SelectItem>
+                                ))}
                             </SelectGroup>
                         </SelectContent>
                     </Select>
