@@ -1,6 +1,7 @@
 "use client"
 import React, { useRef, useState, useEffect } from 'react';
 import BlackButton1 from '@/components/ui/BlackButton1';
+
  
 import {
   Select,
@@ -15,9 +16,20 @@ import {
 import { TechStackArray, CommitmentArray, TimeZoneArray, RoleArray, SkillArray, TechStack, Commitment, TimeZone, Role, Skill } from '@/types/attribute';
 import { FGPost } from '@/types/post';
 import { createFGPost } from '@/services/fg_post';
- 
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useRouter } from "next/navigation";
+import { auth } from "@/lib/firebase";
+import { firestore } from '@/lib/firebase';
+import { doc, getDoc, collection } from 'firebase/firestore';
+import { getCurrentUser } from '@/services/profile';
+import router from 'next/router';
+
+
+
+//const router = useRouter(); 
 
 export default function CreateProjectPost () {
+    const [user] = useAuthState(auth);
 
 
     const scrollContainerRef = useRef<HTMLDivElement | null>(null);
@@ -29,6 +41,7 @@ export default function CreateProjectPost () {
     const [expectedCommitmentTime, setExpectedCommitmentTime] = useState<string>('');
     const [timeZone, setTimeZone] = useState<string>('');
     const [contact, setContact] = useState<string>('');
+    const router = useRouter(); 
 
   const scrollNext = () => {
     if (scrollContainerRef.current) {
@@ -61,12 +74,13 @@ export default function CreateProjectPost () {
         setRoleAvailability([...roleAvailability, value])
     }
   }
-  const submit = () => {
+  const submit = async () => {
     console.log(title, description, selectedTags, techStack, roleAvailability, expectedCommitmentTime, timeZone, contact)
+    const currentUser = await getCurrentUser(user);
 
     const postData: Omit<FGPost, 'id'> = {
         timeStamp: new Date().toISOString(),  
-        ownerId: '',  
+        ownerId: currentUser.id,  
         groupMember: [],  
         title: title,
         projectOverview: description,
@@ -87,6 +101,7 @@ export default function CreateProjectPost () {
         .catch((error) => {
             console.error('Error creating FGPost:', error.message);
         });
+    router.push('/projects')
     
   }
   useEffect(() => {

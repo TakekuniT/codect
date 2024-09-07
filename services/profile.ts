@@ -2,6 +2,31 @@ import { Profile } from '@/types/profile';
 
 const API_URL = '/api/profile';
 
+
+import { firestore } from '@/lib/firebase';
+import { doc, getDoc, collection } from 'firebase/firestore';
+import { User } from 'firebase/auth';
+
+
+
+export async function getCurrentUser(user: User | null | undefined): Promise<Profile> {
+  if (!user || !user.email) {
+    throw new Error('User is not authenticated');
+  }
+
+  const userDocRef = doc(collection(firestore, 'users'), user?.email?.toString());
+  const docSnap = await getDoc(userDocRef);
+
+  if (docSnap.exists()) {
+    const profileId = docSnap.data().userId;
+    console.log("Profile ID:", profileId);
+    return getProfile(profileId);
+  } else {
+    throw new Error('Failed to get current user');
+  }
+}
+
+
 export async function createProfile(profileData: Omit<Profile, 'id'>): Promise<{ id: string; message: string }> {
   const response = await fetch(API_URL, {
     method: 'POST',
