@@ -9,7 +9,6 @@ export interface Post {
 
 export interface FGPost extends Post {
     groupMember: Array<string>;
-    groupType: GroupType;
     title: string;
     projectOverview: string;
     skill: Array<Skill>;
