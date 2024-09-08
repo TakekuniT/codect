@@ -1,6 +1,7 @@
 "use client"
 import React, { useRef, useState, useEffect } from 'react';
 import BlackButton1 from '@/components/ui/BlackButton1';
+
  
 import {
   Select,
@@ -11,12 +12,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { useRouter } from 'next/navigation';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '@/lib/firebase';
+
 import { SignedIn } from '@/components/signed-in';
 import { Loader } from 'lucide-react';
  
+
+import { TechStackArray, CommitmentArray, TimeZoneArray, RoleArray, SkillArray, TechStack, Commitment, TimeZone, Role, Skill } from '@/types/attribute';
+import { FGPost } from '@/types/post';
+import { createFGPost } from '@/services/fg_post';
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useRouter } from "next/navigation";
+import { auth } from "@/lib/firebase";
+import { firestore } from '@/lib/firebase';
+import { doc, getDoc, collection } from 'firebase/firestore';
+import { getCurrentUser } from '@/services/profile';
+import router from 'next/router';
+
 
 export default function CreateProjectPost () {
 
@@ -72,8 +83,35 @@ export default function CreateProjectPost () {
         setRoleAvailability([...roleAvailability, value])
     }
   }
-  const submit = () => {
+  const submit = async () => {
     console.log(title, description, selectedTags, techStack, roleAvailability, expectedCommitmentTime, timeZone, contact)
+    const currentUser = await getCurrentUser(user);
+
+    const postData: Omit<FGPost, 'id'> = {
+        timeStamp: new Date().toISOString(),  
+        ownerId: currentUser.id,  
+        groupMember: [],  
+        title: title,
+        projectOverview: description,
+        skill: selectedTags as Array<Skill>, 
+        techstack: techStack as Array<TechStack>,  
+        commitment: expectedCommitmentTime as Commitment,  
+        role: roleAvailability as Array<Role>,  
+        closed: false,
+        contact: contact,
+        thread: [],  
+        timeZone: timeZone as TimeZone
+    };
+
+    createFGPost(postData)
+        .then((response) => {
+            console.log(`FGPost created with ID: ${response.id}, Message: ${response.message}`);
+        })
+        .catch((error) => {
+            console.error('Error creating FGPost:', error.message);
+        });
+    router.push('/projects')
+    
   }
   useEffect(() => {
     const handleResize = () => {
@@ -137,12 +175,11 @@ export default function CreateProjectPost () {
                         </SelectTrigger>
                         <SelectContent>
                             <SelectGroup>
-                            <SelectLabel>Tags</SelectLabel>
-                            <SelectItem value="apple">Apple</SelectItem>
-                            <SelectItem value="banana">Banana</SelectItem>
-                            <SelectItem value="blueberry">Blueberry</SelectItem>
-                            <SelectItem value="grapes">Grapes</SelectItem>
-                            <SelectItem value="pineapple">Pineapple</SelectItem>
+                                <SelectLabel>Tags</SelectLabel>
+                                
+                                {SkillArray.map(skill => (
+                                    <SelectItem key={skill} value={skill}>{skill}</SelectItem>
+                                ))}
                             </SelectGroup>
                         </SelectContent>
                     </Select>
@@ -176,11 +213,9 @@ export default function CreateProjectPost () {
                         <SelectContent>
                             <SelectGroup>
                             <SelectLabel>Tags</SelectLabel>
-                            <SelectItem value="apple">Apple</SelectItem>
-                            <SelectItem value="banana">Banana</SelectItem>
-                            <SelectItem value="blueberry">Blueberry</SelectItem>
-                            <SelectItem value="grapes">Grapes</SelectItem>
-                            <SelectItem value="pineapple">Pineapple</SelectItem>
+                                {TechStackArray.map(tech => (
+                                    <SelectItem key={tech} value={tech}>{tech}</SelectItem>
+                                ))}
                             </SelectGroup>
                         </SelectContent>
                     </Select>
@@ -215,11 +250,9 @@ export default function CreateProjectPost () {
                             <SelectContent>
                                 <SelectGroup>
                                 <SelectLabel>Tags</SelectLabel>
-                                <SelectItem value="apple">Apple</SelectItem>
-                                <SelectItem value="banana">Banana</SelectItem>
-                                <SelectItem value="blueberry">Blueberry</SelectItem>
-                                <SelectItem value="grapes">Grapes</SelectItem>
-                                <SelectItem value="pineapple">Pineapple</SelectItem>
+                                    {RoleArray.map(role => (
+                                        <SelectItem key={role} value={role}>{role}</SelectItem>
+                                    ))}
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
@@ -255,11 +288,9 @@ export default function CreateProjectPost () {
                         <SelectContent>
                             <SelectGroup>
                             <SelectLabel>Tags</SelectLabel>
-                            <SelectItem value="apple">Apple</SelectItem>
-                            <SelectItem value="banana">Banana</SelectItem>
-                            <SelectItem value="blueberry">Blueberry</SelectItem>
-                            <SelectItem value="grapes">Grapes</SelectItem>
-                            <SelectItem value="pineapple">Pineapple</SelectItem>
+                                {CommitmentArray.map(commitment => (
+                                    <SelectItem key={commitment} value={commitment}>{commitment}</SelectItem>
+                                ))}
                             </SelectGroup>
                         </SelectContent>
                     </Select>
@@ -284,11 +315,9 @@ export default function CreateProjectPost () {
                         <SelectContent>
                             <SelectGroup>
                             <SelectLabel>Tags</SelectLabel>
-                            <SelectItem value="apple">Apple</SelectItem>
-                            <SelectItem value="banana">Banana</SelectItem>
-                            <SelectItem value="blueberry">Blueberry</SelectItem>
-                            <SelectItem value="grapes">Grapes</SelectItem>
-                            <SelectItem value="pineapple">Pineapple</SelectItem>
+                                {TimeZoneArray.map(timezone => (
+                                    <SelectItem key={timezone} value={timezone}>{timezone}</SelectItem>
+                                ))}
                             </SelectGroup>
                         </SelectContent>
                     </Select>
