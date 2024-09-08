@@ -6,7 +6,7 @@ type Props = {
   children: ReactNode; 
 };
 //content you want to show when user is signed out
-export const SignedIn = ({children}: Props) => {
+export const SignedOut = ({children}: Props) => {
   const [user] = useAuthState(auth);
   if (user) return null;
 
