@@ -7,7 +7,22 @@ import { firestore } from '@/lib/firebase';
 import { doc, getDoc, collection } from 'firebase/firestore';
 import { User } from 'firebase/auth';
 
+export async function getCurrentUserId(user: User | null | undefined): Promise<string>{
+  if (!user || !user.email) {
+    throw new Error('User is not authenticated');
+  }
 
+  const userDocRef = doc(collection(firestore, 'users'), user?.email?.toString());
+  const docSnap = await getDoc(userDocRef);
+
+  if (docSnap.exists()) {
+    const profileId = docSnap.data()?.userId;
+    console.log("Profile ID:", profileId);
+    return profileId; 
+  } else {
+    throw new Error('Failed to get current user');
+  }
+}
 
 export async function getCurrentUser(user: User | null | undefined): Promise<Profile> {
   if (!user || !user.email) {
