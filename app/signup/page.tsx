@@ -124,23 +124,22 @@ export default function SignUp() {
                         className="border-black border-[1px] rounded-lg w-full px-4 py-1"
                         />
 
-                    </div>
-                    <p className="ml-auto mr-0 text-[12px] mt-2 text-gray-500">Forgot password?</p>
-                    
-                    <button  onClick={signup}className="bg-black text-white rounded-lg p-1 text-[16px] mt-6">Sign Up</button>
-                    <div className="mt-6 flex items-center">
-                        <hr className="flex-grow border-t border-gray-300" />
-                        <div className="relative px-2">
-                            <p className="text-[12px]">OR</p>
-                        </div>
-                        <hr className="flex-grow border-t border-gray-300" />
-                    </div>
-                    
-                    <button onClick={googleSignIn} className="w-full border-[1px] border-black rounded-lg mt-6 p-2 text-[14px] font-semibold">Login with Google</button>
                 </div>
                 
+                <button  onClick={signup}className="bg-black text-white rounded-lg p-1 text-[16px] mt-6">Sign Up</button>
+                <div className="mt-6 flex items-center">
+                    <hr className="flex-grow border-t border-gray-300" />
+                    <div className="relative px-2">
+                        <p className="text-[12px]">OR</p>
+                    </div>
+                    <hr className="flex-grow border-t border-gray-300" />
+                </div>
+                
+                <button onClick={googleSignIn}className="w-full border-[1px] border-black rounded-lg mt-6 p-2 text-[14px] font-semibold">Login with Google</button>
             </div>
-            </SignedOut>
+            
+        </div>
+        </SignedOut>
         </>
     )
 }
