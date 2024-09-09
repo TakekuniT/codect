@@ -3,7 +3,7 @@ import Header from "@/components/header";
 import Sidenavbar from "@/components/sidenavbar";
 import { SignedIn } from "@/components/signed-in";
 import { auth } from "@/lib/firebase";
-import { getCurrentUser, getProfile } from "@/services/profile";
+import { getCurrentUser, getCurrentUserId, getProfile } from "@/services/profile";
 import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -27,6 +27,7 @@ export default function Profile () {
           }else{
             getCurrentUser(user).then(profile => {
               setCurrProfile(profile);
+              console.log(currProfile);
             }).catch(error =>{
               console.error(error);
             })
@@ -34,9 +35,16 @@ export default function Profile () {
       }
   }, [loading, user, router]);
   const updateName = () => {
-    updateProfile(, {
-      name: addName
-    })
+      updateProfile(currProfile?.id.toString() || "", {
+        name: addName,
+        userName: currProfile?.userName || "",
+        email: currProfile?.email || "",
+        github: currProfile?.github || "",
+        linkedin: currProfile?.linkedin || "",
+        skills: currProfile?.skills || [],
+        techstack: currProfile?.techstack || [],
+        contact: currProfile?.contact || []
+      })
   }
 
     return (
@@ -58,7 +66,9 @@ export default function Profile () {
             <div className="flex flex-col w-[14rem] h-[12rem] items-start ml-4 font-body">
               <div className="mt-[6rem] font-semibold text-lg">
                 {currProfile?.name !== "" ? currProfile?.name : 
-                <Card className="w-[350px]">
+                <>
+                <div className="flex justify-center items-center">
+                <Card className="w-[350px] z-10">
                 <CardHeader>
                   <CardTitle>Add Name</CardTitle>
                 </CardHeader>
@@ -66,8 +76,8 @@ export default function Profile () {
                   <form>
                     <div className="grid w-full items-center gap-4">
                       <div className="flex flex-col space-y-1.5">
-                        <Label htmlFor="name">Name</Label>
-                        <input id="name" value={addName} onChange={(e) => setName(e.target.value)} placeholder="First and Last Name"/>
+                        <Label htmlFor="name">First and Last Name</Label>
+                        <input id="name" className="border rounded-md text-sm font-light border-gray-500 px-4 py-1" value={addName} onChange={(e) => setName(e.target.value)}/>
                       </div>
                     </div>
                   </form>
@@ -76,6 +86,8 @@ export default function Profile () {
                   <Button variant="outline" onClick={updateName}>Submit</Button>
                 </CardFooter>
               </Card>
+              </div>
+              </>
                 }
               </div>
               <div className="text-sm font-light mb-2">
