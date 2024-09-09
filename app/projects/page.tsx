@@ -120,7 +120,7 @@ export default function Projects() {
                         {posts.length > 0 ? (
                                 posts.map((post: any) => (
                                     
-                                    <FgPostTemplate title={post.title} description={post.projectOverview} onClick={() => handlePostClick(post)}/>
+                                    <FgPostTemplate key={post.id} title={post.title} description={post.projectOverview} onClick={() => handlePostClick(post)}/>
                                 ))
                             ) : (
                                 <p>No posts found.</p>
