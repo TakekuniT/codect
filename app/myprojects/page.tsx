@@ -27,7 +27,11 @@ export default function MyProfile() {
     }, [loading, user, router]);
 
     useEffect(() => {
-        fetchPosts();
+        if(user) {
+            fetchPosts();
+
+        }
+        
     },[user]); 
 
     const fetchPosts = async () => {
