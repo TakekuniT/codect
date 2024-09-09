@@ -11,6 +11,7 @@ import Header from "@/components/header";
 import { SignedIn } from "@/components/signed-in";
 import { getCurrentUser } from '@/services/profile';
 import { collection, query, where, getDocs } from "firebase/firestore"; // Firestore imports
+import { getProfile } from "@/services/profile";
 
 export default function MyProfile() {
     const router = useRouter(); 
@@ -46,6 +47,36 @@ export default function MyProfile() {
             setLoadingPosts(false);
         }
     };
+
+    const [profiles, setProfiles] = useState<{ [key: string]: string }>({});
+
+    useEffect(() => {
+        const fetchProfiles = async () => {
+            // Collect all user IDs from posts
+            const userIds = new Set<string>();
+            posts.forEach((post:any )=> post.interested.forEach((userId: string) => userIds.add(userId)));
+
+            // Fetch profiles for all unique user IDs
+            const profilesData = await Promise.all(Array.from(userIds).map(async userId => {
+                const profile = await getProfile(userId);
+                return { id: userId, name: profile.email}; // Adjust according to your profile structure
+            }));
+
+            // Map profiles to an object for quick lookup
+            const profilesMap = profilesData.reduce((acc: { [key: string]: string }, profile) => {
+                acc[profile.id] = profile.name;
+                return acc;
+            }, {});
+
+            setProfiles(profilesMap);
+        };
+
+        fetchProfiles();
+    }, [posts]);
+    const test = () => {
+        console.log(profiles)
+        console.log(profiles[""])
+    }
     return (
         <>
              {loading ? 
@@ -71,12 +102,14 @@ export default function MyProfile() {
                                         <h4>Interested Users:</h4>
                                         <ul>
                                             {post.interested && post.interested.length > 0 ? (
-                                                post.interested.map((user: any) => (
-                                                    <li key={user}>{user}</li> // Assuming user has a name field
+                                                post.interested.map((userId: any) => (
+                                                    <li key={userId}>{profiles[userId]}</li> // Assuming user has a name field
+                                                    
                                                 ))
                                             ) : (
                                                 <li>No users interested.</li>
                                             )}
+                                            <button onClick={test}>click</button>
                                         </ul>
                                     </div>
                                 ))
