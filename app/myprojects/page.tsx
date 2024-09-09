@@ -91,22 +91,26 @@ export default function MyProfile() {
             : <></>}
             <SignedIn>
                 <Header></Header>
-                <div className="bg-[#f6f6f6] h-screen flex">
+                <div className="bg-[#f6f6f6] h-screen flex w-full">
                     
                     <Sidenavbar/>
-                    <div>
-                        <p>My Projects</p>
-                        <div>
+                    <div className="p-8 w-full">
+                        <p className="text-[24px] font-bold mb-4">My Projects</p>
+                        <div className="flex flex-col gap-4 w-full">
                             {posts.length > 0 ? (
                                 posts.map((post: any) => (
-                                    <div key={post.id} className="post-item">
-                                        <h3>{post.title}</h3> {/* Assuming each post has a title */}
-                                        <p>{post.content}</p> {/* Assuming each post has content */}
-                                        <h4>Interested Users:</h4>
+                                    <div key={post.id} className="post-item bg-white rounded-lg p-4 w-full">
+                                        <h3 className="text-[20px] font-bold">{post.title}</h3> {/* Assuming each post has a title */}
+                                        <h4 className="text-gray-500 text-[12px] font-bold">Interested Users:</h4>
                                         <ul>
                                             {post.interested && post.interested.length > 0 ? (
                                                 post.interested.map((userId: any) => (
-                                                    <li key={userId}>{profiles[userId]}</li> // Assuming user has a name field
+                                                    <div key={userId} className="mt-2 border-[1px] rounded-lg inline-flex flex-col p-4 justify-center items-center">
+                                                        <div className="bg-gray-300 rounded-full w-[150px] h-[150px]"></div>
+                                                        <p className="mt-2 text-[12px] font-bold">Name</p>
+                                                        <p className="text-[12px] text-gray-500">{profiles[userId]}</p>
+                                                    </div>
+                                        
                                                     
                                                 ))
                                             ) : (
