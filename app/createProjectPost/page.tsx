@@ -44,6 +44,7 @@ export default function CreateProjectPost () {
 
     const router = useRouter(); 
     const [user, loading] = useAuthState(auth);
+    
     useEffect(() => {
         if (!loading) {
             if (!user) {
