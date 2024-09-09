@@ -91,7 +91,6 @@ export default function MyProfile() {
                     
                     <Sidenavbar/>
                     <div>
-                        <button onClick={fetchPosts}>test</button>
                         <p>My Projects</p>
                         <div>
                             {posts.length > 0 ? (
@@ -109,7 +108,6 @@ export default function MyProfile() {
                                             ) : (
                                                 <li>No users interested.</li>
                                             )}
-                                            <button onClick={test}>click</button>
                                         </ul>
                                     </div>
                                 ))
