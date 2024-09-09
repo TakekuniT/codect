@@ -25,6 +25,8 @@ export async function getCurrentUserId(user: User | null | undefined): Promise<s
 }
 
 export async function getCurrentUser(user: User | null | undefined): Promise<Profile> {
+  console.log(!user) 
+  console.log(!user!.email)
   if (!user || !user.email) {
     throw new Error('User is not authenticated');
   }
