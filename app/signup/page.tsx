@@ -135,7 +135,7 @@ export default function SignUp() {
                     <hr className="flex-grow border-t border-gray-300" />
                 </div>
                 
-                <button className="w-full border-[1px] border-black rounded-lg mt-6 p-2 text-[14px] font-semibold">Login with Google</button>
+                <button onClick={googleSignIn}className="w-full border-[1px] border-black rounded-lg mt-6 p-2 text-[14px] font-semibold">Login with Google</button>
             </div>
             
         </div>
