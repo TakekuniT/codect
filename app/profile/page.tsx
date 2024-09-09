@@ -20,6 +20,7 @@ export default function Profile () {
   const [user, loading] = useAuthState(auth); 
   const [currProfile, setCurrProfile] =  useState<Profile | null>(null); 
   const [addName, setName] = useState("");
+  const [addUserName, setUserName] = useState("");
   useEffect(() => {
       if (!loading) {
           if (!user) {
@@ -46,6 +47,18 @@ export default function Profile () {
         contact: currProfile?.contact || []
       })
   }
+  const updateUserName = () => {
+    updateProfile(currProfile?.id.toString() || "", {
+      name: currProfile?.name || "",
+      userName: addUserName || "",
+      email: currProfile?.email || "",
+      github: currProfile?.github || "",
+      linkedin: currProfile?.linkedin || "",
+      skills: currProfile?.skills || [],
+      techstack: currProfile?.techstack || [],
+      contact: currProfile?.contact || []
+    })
+}
 
     return (
     <>
@@ -77,13 +90,13 @@ export default function Profile () {
                     <div className="grid w-full items-center gap-4">
                       <div className="flex flex-col space-y-1.5">
                         <Label htmlFor="name">First and Last Name</Label>
-                        <input id="name" className="border rounded-md text-sm font-light border-gray-500 px-4 py-1" value={addName} onChange={(e) => setName(e.target.value)}/>
+                        <input id="username" className="border rounded-md text-sm font-light border-gray-500 px-4 py-1" value={addUserName} onChange={(e) => setUserName(e.target.value)}/>
                       </div>
                     </div>
                   </form>
                 </CardContent>
                 <CardFooter className="flex justify-between">
-                  <Button variant="outline" onClick={updateName}>Submit</Button>
+                  <Button variant="outline" onClick={updateUserName}>Submit</Button>
                 </CardFooter>
               </Card>
               </div>
@@ -91,7 +104,30 @@ export default function Profile () {
                 }
               </div>
               <div className="text-sm font-light mb-2">
-                {currProfile?.userName !== "" ? "@"+currProfile?.userName : null}
+                {currProfile?.userName !== "" ? "@"+currProfile?.userName : 
+                  <>
+                  <div className="flex justify-center items-center">
+                  <Card className="w-[350px] z-10">
+                  <CardHeader>
+                    <CardTitle>Add User Name</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <form>
+                      <div className="grid w-full items-center gap-4">
+                        <div className="flex flex-col space-y-1.5">
+                          <Label htmlFor="name">Username</Label>
+                          <input id="name" className="border rounded-md text-sm font-light border-gray-500 px-4 py-1" value={addName} onChange={(e) => setName(e.target.value)}/>
+                        </div>
+                      </div>
+                    </form>
+                  </CardContent>
+                  <CardFooter className="flex justify-between">
+                    <Button variant="outline" onClick={updateName}>Submit</Button>
+                  </CardFooter>
+                </Card>
+                </div>
+                </>
+                }
               </div>
               <button className="rounded bg-white border-black border-[0.75px] font-light py-1 px-2 text-xs">
                 + Connect
