@@ -100,6 +100,7 @@ export default function CreateProjectPost () {
         closed: false,
         contact: contact,
         thread: [],  
+        interested: [],
         timeZone: timeZone as TimeZone
     };
 
