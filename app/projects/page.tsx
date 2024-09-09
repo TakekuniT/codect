@@ -118,9 +118,9 @@ export default function projects() {
                         </a>
                         <div className="flex flex-col gap-2 mt-4">
                         {posts.length > 0 ? (
-                                posts.map((post: any) => (
+                                posts.map((post: any, index:number) => (
                                     
-                                    <FgPostTemplate title={post.title} description={post.projectOverview} onClick={() => handlePostClick(post)}/>
+                                    <FgPostTemplate key={index} title={post.title} description={post.projectOverview} onClick={() => handlePostClick(post)}/>
                                 ))
                             ) : (
                                 <p>No posts found.</p>
