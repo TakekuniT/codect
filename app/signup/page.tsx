@@ -24,7 +24,7 @@ export default function SignUp() {
     useEffect(() => {
         if (!loading1) {
             if (user1) {
-                router.push('/home');
+                router.push('/projects');
             }
         }
     }, [loading1, user1, router]);
@@ -54,7 +54,7 @@ export default function SignUp() {
                 await createUser(email, password);
                 await sendEmailVerification();
                 await signInUserWithEmailAndPassword(email, password);
-                router.push('/home');
+                router.push('/projects');
             }
 
         }
@@ -81,7 +81,7 @@ export default function SignUp() {
                 setDoc(docGoogleRef, {"name": userGoogle.user.displayName,"username": "", "userId": (await userProfile).id, "password": ""})
                 sendEmailVerification(); 
             }
-            router.push('/home');
+            router.push('/projects');
         }
     }
 

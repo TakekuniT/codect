@@ -21,7 +21,7 @@ export default function Login() {
     useEffect(() => {
         if (!loading1) {
             if (user1) {
-                router.push('/home');
+                router.push('/projects');
             }
         }
     }, [loading1, user1, router]);
@@ -32,7 +32,7 @@ export default function Login() {
             if(typeof user === 'undefined'){ //unsuccessful signin
                 alert('Your email or password is incorrect.');
             }else{  //successful signin
-                router.push('/home');
+                router.push('/projects');
             }
         } else{ //did not enter email
             alert('You did not enter an email.');
@@ -58,7 +58,7 @@ export default function Login() {
                 })
                 setDoc(docGoogleRef, {"name": userGoogle.user.displayName,"username": "", "userId": (await userProfile).id, "password": ""})
             }
-            router.push('/home');
+            router.push('/projects');
         }
     }
     return (
