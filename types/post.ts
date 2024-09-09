@@ -18,6 +18,7 @@ export interface FGPost extends Post {
     closed: Boolean;
     contact: String;
     thread: Array<DocumentReference>;
+    interested: Array<string>;
     timeZone?: TimeZone;
 }
 

@@ -72,6 +72,7 @@ export async function GET(req: NextRequest) {
         closed: data.closed || false,
         contact: data.contact || '',
         thread: data.thread || [],
+        interested: data.interested || [],
         timeZone: data.timeZone || undefined
       };
 
@@ -94,6 +95,7 @@ export async function GET(req: NextRequest) {
           closed: data.closed || false,
           contact: data.contact || '',
           thread: data.thread || [],
+          interested: data.interested || [],
           timeZone: data.timeZone || undefined
         };
       });
@@ -122,6 +124,7 @@ export async function PUT(req: NextRequest) {
       closed,
       contact,
       thread,
+      interested,
       timeZone
     } = await req.json();
 
@@ -139,6 +142,7 @@ export async function PUT(req: NextRequest) {
       closed,
       contact,
       thread,
+      interested,
       timeZone
     });
 
