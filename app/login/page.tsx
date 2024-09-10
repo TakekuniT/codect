@@ -89,14 +89,6 @@ export default function Login() {
                     value={password}
                     className="border-black border-[1px] rounded-lg w-full px-4 py-1"
                     />
-                        </div>
-                        <div className="mt-2">
-                            <p className="text-[14px]">Password</p>
-                            <input onChange={(e) => setPassword(e.target.value)}
-                            type='password'
-                            value={password}
-                            className="border-black border-[1px] rounded-lg w-full px-4 py-1"
-                            />
 
                 </div>
                 <p className="ml-auto mr-0 text-[12px] mt-2 text-gray-500">Forgot password?</p>
