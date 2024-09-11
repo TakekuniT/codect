@@ -22,7 +22,7 @@ import { firestore } from "@/lib/firebase";
 
 
 
-export default function projects() {
+export default function Projects() {
     const router = useRouter(); 
     const [user, loading] = useAuthState(auth); 
     const [posts, setPosts] = useState<any>([])

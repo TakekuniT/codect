@@ -7,7 +7,7 @@ import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { getDoc, setDoc, doc, collection } from 'firebase/firestore';
 import { firestore } from '@/lib/firebase';
 
-export default function forgotPassword(){
+export default function ForgotPassword(){
   const router = useRouter(); 
   const [email, setEmail] = useState("");
   const [signInWithGoogle, userGoogle] = useSignInWithGoogle(auth);
