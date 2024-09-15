@@ -46,7 +46,7 @@ export default function LandingPage () {
                     <a className="font-[1.2em] text-[#18216d] transition-colors duration-200 ease-in m-2 md:m-5 cursor-pointer">
                         <span className="cursor-pointer transition-all duration-300 ease-in-out hover:text-[#ff825c] focus:text-[#ff825c] active:text-[#ff825c] hover:underline decoration-wavy underline-offset-4">Product</span>
                     </a>
-                    <a className="font-[1.2em] text-[#18216d] bg-black transition-colors duration-200 ease-in m-2 md:m-5 cursor-pointer px-4  py-2 rounded-lg">
+                    <a href="/signup" className="font-[1.2em] text-[#18216d] bg-black transition-colors duration-200 ease-in m-2 md:m-5 cursor-pointer px-4  py-2 rounded-lg">
                         <span className="cursor-pointer transition-all duration-300 ease-in-out hover:text-[#ff825c] focus:text-[#ff825c] active:text-[#ff825c] hover:underline decoration-wavy underline-offset-4 text-white">Sign Up</span>
                     </a>
 
