@@ -16,7 +16,7 @@ export default function Sidenavbar () {
                 <a href="/projects">
                     <PanelsTopLeft/>
                 </a>
-                <a href="/myprofile">
+                <a href="/myprojects">
                     <PanelsTopLeft/>
                 </a>
                 <LogOut className="absolute bottom-4 hover:cursor-pointer" onClick={signOut}/>

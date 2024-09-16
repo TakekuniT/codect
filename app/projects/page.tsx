@@ -118,9 +118,9 @@ export default function Projects() {
                         </a>
                         <div className="flex flex-col gap-2 mt-4">
                         {posts.length > 0 ? (
-                                posts.map((post: any) => (
+                                posts.map((post: any, index:number) => (
                                     
-                                    <FgPostTemplate key={post.id} title={post.title} description={post.projectOverview} onClick={() => handlePostClick(post)}/>
+                                    <FgPostTemplate key={index} title={post.title} description={post.projectOverview} onClick={() => handlePostClick(post)}/>
                                 ))
                             ) : (
                                 <p>No posts found.</p>
@@ -133,12 +133,42 @@ export default function Projects() {
                     </div>
                     <div className="w-1/2">
                         {currentPost && (
-                                <div className="fixed right-0 top-0 bg-white w-1/2 h-full p-4 shadow-lg">
-                                    <h2 className="text-2xl font-bold">{currentPost.title}</h2>
-                                    <p className="text-lg mt-2">{currentPost.projectOverview}</p>
-                                    <button onClick={interested}>interested?</button>
+                                <div className="border-[1px] bg-white h-screen overflow-auto shadow-lg">
+                                    <div className="border-[1px] p-8">
+                                        <h2 className="text-2xl font-bold mb-8">{currentPost.title}</h2>
+                                        
+                                        <BlackButton1 onClick={interested} text="Interested?"/>
 
-                                    {/* Add more details about the post here */}
+                                    </div>
+                                    <div className="border-[1px] p-8">
+                                        <p className="text-[20px] font-bold">Project Overview</p>
+                                        <p className="text-lg mt-2 text-gray-500 text-[12px]">{currentPost.projectOverview}</p>
+                                    </div >
+                                    <div className="border-[1px] p-8">
+                                        <p className="text-[20px] font-bold">Tech Stack</p>
+                                        <p className="text-lg mt-2 text-gray-500 text-[12px]">{currentPost.techstack.join(', ')}</p>
+                                    </div>
+                                    <div className="border-[1px] p-8">
+                                        <p className="text-[20px] font-bold">Role Availability</p>
+                                        <p className="text-lg mt-2 text-gray-500 text-[12px]">{currentPost.role.join(', ')}</p>
+                                    </div>
+                                    <div className="border-[1px] p-8">
+                                        <p className="text-[20px] font-bold">Expected Commitment Time</p>
+                                        <p className="text-lg mt-2 text-gray-500 text-[12px]">{currentPost.commitment}</p>
+                                    </div>
+                                    <div className="border-[1px] p-8">
+                                        <p className="text-[20px] font-bold">Time Zone</p>
+                                        <p className="text-lg mt-2 text-gray-500 text-[12px]">{currentPost.timeZone}</p>
+                                    </div>
+                                    <div className="border-[1px] p-8">
+                                        <p className="text-[20px] font-bold">Contact</p>
+                                        <p className="text-lg mt-2 text-gray-500 text-[12px]">{currentPost.contact}</p>
+                                    </div>
+
+                                    
+                                    
+
+                                   
                                 </div>
                             )}
 
