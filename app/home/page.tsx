@@ -94,8 +94,8 @@ export default function Home() {
                         </a>
                         <div className="flex flex-col gap-2 mt-4">
                             {posts.length > 0 ? (
-                                posts.map((post: SCPost, index: number) => ( // Type post as SCPost
-                                    <div key={index} className="mb-16"> {/* Add a wrapper div with margin-bottom */}
+                                posts.map((post: SCPost, index: number) => ( 
+                                    <div key={index} > 
                                         <ScPostTemplate 
                                             title={post.title} 
                                             description={post.description} 
@@ -106,28 +106,10 @@ export default function Home() {
                                             skill={post.skill} 
                                             techStack={post.techStack} 
                                             onClick={() => handlePostClick(post)}
+                                            onLikeClick={() => likePost(post.id)}
                                         />
 
-                                        {post.skill && post.skill.length > 0 ? (
-                                            <TagComponent
-                                                label='Tags'
-                                                list={post.skill} 
-                                            />
-                                        ) : null}
-
-                                        {post.techStack && post.techStack.length > 0 ? (
-                                            <TagComponent
-                                                label='Tech Stack'
-                                                list={post.techStack} 
-                                            />
-                                        ) : null}
-
-                                        <button 
-                                            onClick={() => likePost(post.id)}
-                                            className="mt-2 px-4 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition-colors duration-300 shadow-md"
-                                        >
-                                            Like ({post.likes || 0})
-                                        </button>
+                                        
 
                                     </div>
                                 ))
