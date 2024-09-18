@@ -54,7 +54,7 @@ export default function ScPostTemplate({
 
             {skill.length > 0 && (
                 <TagComponent
-                    label="Skills"
+                    label="Tags"
                     list={skill}
                 />
             )}
